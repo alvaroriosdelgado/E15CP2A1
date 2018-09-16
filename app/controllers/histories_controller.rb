@@ -1,5 +1,6 @@
 class HistoriesController < ApplicationController
   before_action :set_history, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index]
 
   # GET /histories
   # GET /histories.json
@@ -25,6 +26,7 @@ class HistoriesController < ApplicationController
   # POST /histories.json
   def create
     @history = History.new(history_params)
+    @history.user = current_user
 
     respond_to do |format|
       if @history.save
@@ -59,6 +61,10 @@ class HistoriesController < ApplicationController
       format.html { redirect_to histories_url, notice: 'History was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def my_histories
+    @histories = current_user.histories
   end
 
   private

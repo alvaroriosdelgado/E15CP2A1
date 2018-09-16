@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+    registrations: "users/registrations"
+  }
+
+  get "histories/my_histories", to: "histories#my_histories"
+
   resources :histories
 
   root "histories#index"
